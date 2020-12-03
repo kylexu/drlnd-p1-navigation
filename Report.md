@@ -63,7 +63,9 @@ Where
 `LR = 0.0001` and 
 `UPDATE_EVERY = 2`  
 
-The computer running this had 48 GB of ram, so buffer size and batch size was increased. GAMMA and TAU stayed at the default values. With Learning rate and update every updated by trial and error.
+The buffer size and batch size is suitable for the machine with large memory such as 32GB which was used in my machine. 
+GAMMA and TAU are the default values. 
+Learning rate and update every are set by trial and error.
 
 ### Neural Network
 The [QNetwork model](model.py) utilise 2 x 64 Fully Connected Layers with Relu activation followed by a final Fully Connected layer with the same number of units as the action size. The network has an initial dimension the same as the state size.   
