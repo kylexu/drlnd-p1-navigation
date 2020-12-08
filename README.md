@@ -1,5 +1,4 @@
-# drlnd-p1-navigation
-This is the 1st project in Udacity DRLND, which is practice for training an agent to collect bananas in a large, square world using Deep Q-Networks algorithm.
+# Project 1: Navigation
 
 ### Introduction
 
@@ -31,6 +30,42 @@ The task is episodic, and in order to solve the environment, your agent must get
 
 2. Place the file in the DRLND GitHub repository, in the `p1_navigation/` folder, and unzip (or decompress) the file. 
 
+## Dependencies
+
+To set up your python environment to run the code in this repository, follow the instructions below.
+
+1. Create (and activate) a new environment with Python 3.6.
+
+	- __Linux__ or __Mac__: 
+	```bash
+	conda create --name drlnd python=3.6
+	source activate drlnd
+	```
+	- __Windows__: 
+	```bash
+	conda create --name drlnd python=3.6 
+	activate drlnd
+	```
+	
+2. Follow the instructions in [this repository](https://github.com/openai/gym) to perform a minimal install of OpenAI gym.  
+		
+3. Clone the [Deep Reinforcement Learning Nanodegree repository](https://github.com/udacity/deep-reinforcement-learning), and navigate to the `python/` folder.  Then, install several dependencies.
+```bash
+git clone https://github.com/udacity/deep-reinforcement-learning.git
+cd deep-reinforcement-learning/python
+pip install .
+```
+
+4. Create an [IPython kernel](http://ipython.readthedocs.io/en/stable/install/kernel_install.html) for the `drlnd` environment.  
+```bash
+python -m ipykernel install --user --name drlnd --display-name "drlnd"
+```
+
+5. Before running code in a notebook, change the kernel to match the `drlnd` environment by using the drop-down `Kernel` menu. 
+
+![Kernel](drlnd_kernel.png)
+
+
 ### Instructions
 
 Follow the instructions in [`Navigation.ipynb`](Navigation.ipynb) to train an agent using Deep Q-Networks algorithm.
@@ -38,3 +73,4 @@ Follow the instructions in [`Navigation.ipynb`](Navigation.ipynb) to train an ag
 The trained model weights will be saved in the file `checkpoint.pth`.
 
 The model weights are used by the [`View_trained Agent.ipynb`](View_trained_agent.ipynb) notebook to see how a trained agent collects bananas . 
+
