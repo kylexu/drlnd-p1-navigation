@@ -68,7 +68,7 @@ python -m ipykernel install --user --name drlnd --display-name "drlnd"
 
 ### Instructions
 
-Follow the instructions in [`Navigation.ipynb`](Navigation.ipynb) to train an agent using Deep Q-Networks algorithm.
+Follow the instructions in [`Navigation.ipynb`](Navigation.ipynb) to train an agent using Deep Q-Learning algorithm.
 
 The trained model weights will be saved in the file `checkpoint.pth`.
 

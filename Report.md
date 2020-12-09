@@ -1,90 +1,100 @@
 # Report
 ---
-This project utilized the coding exercise for Deep Q-Networks algorithm as outlined in the [`solution/Deep_Q_Network_Solution.ipynd`](https://github.com/udacity/deep-reinforcement-learning/blob/master/dqn/solution/Deep_Q_Network_Solution.ipynb) solution.
+This project utilized the coding exercise for Deep Q-Networks algorithm, as outlined in the notebook [`solution/Deep_Q_Network_Solution.ipynd`](https://github.com/udacity/deep-reinforcement-learning/blob/master/dqn/solution/Deep_Q_Network_Solution.ipynb) to train an agent to navigate (and collect bananas!) in a large, square world.
 
-## State and Action Space
-The environment contains a single agent that navigates a large , square world.  At each time step, it has four actions:
+A reward of +1 is provided for collecting a yellow banana, and a reward of -1 is provided for collecting a blue banana. Thus, the goal of the agent is to collect as many yellow bananas as possible while avoiding blue bananas.
+
+The state space has 37 dimensions and contains the agent's velocity, along with ray-based perception of objects around the agent's forward direction. Given this information, the agent has to learn how to best select actions. Four discrete actions are available, corresponding to:
 - `0` - move forward 
 - `1` - move backward
 - `2` - turn left
 - `3` - turn right
 
-The state space has `37` dimensions and contains the agent's velocity, along with ray-based perception of objects around agent's forward direction.  
+The task is episodic, and in order to solve the environment, the trained agent must get an average score of +13 over 100 consecutive episodes.
 
+# Learning algorithm
 
+The agent training utilized Deep Q-Learning algorithm. 
+This alogorithm uses a neural network to approximate the Q-value function.
 
-## Learning algorithm
+A Q-value function helps us to find the optimal action under certain state. The optimal Q-value function gives us maximum rewards from a given state-action pair.
+I use Adam optimizer to optimize the Q-value function which is the neural network here.
 
-The agent training utilized the `dqn` function in the navigation notebook. 
+During the training stage, an action is selected by the epsilon-greedy stratagy. With the probability epsilon, we select a random action `a` and with probability 1-epsilon, we select an action that has a maximum Q-value, such as `a = argmax(Q(s,a,w))`.
 
-It continues episodical training via a dqn agent until `n_episodes` is reached or until the environment is solved. The environment is considered solved when the average reward (over the last 100 episodes) is at least 13.
+The implementation of dqn_agent is contained in [`dqn_agent.py`](dqn_agent.py). 
 
-Each episode continues until `max_t` time-steps is reached or until the environment says it's done.
-
-A reward of `+1` is provided for collecting a yellow banana, and a reward of `-1` is provided for collecting a blue banana. 
-
-The dqn_agent is contained in [`dqn_agent.py`](dqn_agent.py) 
-
-For each time step the dqn_state acts on the current state and epsilon-greedy values. The dqn_agent utilize a replay buffer of experiences.
-
-### DQN Hyper Parameters  
-
-- n_episodes (int): maximum number of training episodes
-- max_t (int): maximum number of timesteps per episode
-- eps_start (float): starting value of epsilon, for epsilon-greedy action selection
-- eps_end (float): minimum value of epsilon
-- eps_decay (float): multiplicative factor (per episode) for decreasing epsilon
-
-Where
-`n_episodes=1000`, 
-`max_t=10000`, 
-`eps_start=0.5`, 
-`eps_end=0.01` and
-`eps_decay=0.98`
-
-The epsilon-greedy values were found via trial and error after noticing that initial random actions could often lead to positive average rewards for early episodes.
-
-There seemed no reason to have low number of episodes or timesteps, so reasonable high numbers were chosen.
-
-### DQN Agent Hyper Parameters
+### Hyper Parameters using in dqn_agent.py
 
 - BUFFER_SIZE (int): replay buffer size
+  - `BUFFER_SIZE = int(1e6)`
 - BATCH_SIZ (int): mini batch size
+  - `BATCH_SIZE = 256`
 - GAMMA (float): discount factor
+  - `GAMMA = 0.99`
 - TAU (float): for soft update of target parameters
+  - `TAU = 1e-3`
 - LR (float): learning rate for optimizer
+  - `LR = 0.0001`
 - UPDATE_EVERY (int): how often to update the network
+  - `UPDATE_EVERY = 2`
 
-Where 
-`BUFFER_SIZE = int(1e6)`, 
-`BATCH_SIZE = 128`, 
-`GAMMA = 0.99`, 
-`TAU = 1e-3`, 
-`LR = 0.0001` and 
-`UPDATE_EVERY = 2`  
-
-The buffer size and batch size is suitable for the machine with large memory such as 32GB which was used in my machine. 
-GAMMA and TAU are the default values. 
+The buffer size and batch size is suitable for the machine with large memory such as 32GB which is used in my machine. 
+GAMMA and TAU are the default values implemented for the coding exercise of Deep Q-Networks algorithm. 
 Learning rate and update every are set by trial and error.
 
-### Neural Network
-The [QNetwork model](model.py) utilise 2 x 64 Fully Connected Layers with Relu activation followed by a final Fully Connected layer with the same number of units as the action size. The network has an initial dimension the same as the state size.   
+### Neural network model architecture
+The [Q-Network model](model.py) consists of 1 input layer, 2 hidden layers and 1 output layer.
 
-## Plot of Rewards
+- Input layer: the size depends on the state_size which is 37
+- 2 Hidden layers: fully connected layers of 32 cells with Relu activation
+- Output layer: the size depends on the action_size which is 4
 
-![Reward Plot](training_result.png)
+### Other Hyper Parameters of Deep Q-Learning 
+
+- n_episodes (int): maximum number of training episodes
+  - `n_episodes=1000` 
+- max_t (int): maximum number of timesteps per episode
+  - `max_t=15000`
+- eps_start (float): starting value of epsilon, for epsilon-greedy action selection
+  - `eps_start=0.8`
+- eps_end (float): minimum value of epsilon
+  - `eps_end=0.001`
+- eps_decay (float): multiplicative factor (per episode) for decreasing epsilon
+  - `eps_decay=0.97`
+
+the maximum number episodes and timesteps are set to relatively larger numbers in order to avoid early stopping.
+
+The epsilon-greedy values were found via trial and error and avoid it decay to the minimum value too fast.
+
+# Plot of Rewards
+
+![Reward Plot](training_rewards.png)
 
 ```
-Episode 100	Average Score: 5.27
-Episode 200	Average Score: 11.62
-Episode 233	Average Score: 13.05
-Environment solved in 133 episodes!	Average Score: 13.05
+Episode 100	Average Score: 4.22
+Episode 200	Average Score: 11.28
+Episode 225	Average Score: 13.01
+Environment solved in 125 episodes!	Average Score: 13.01
 ```
 
-## Ideas for Future Work
+# Ideas for Future Work
 
-This project used the basic DQN algorithm. It can be improved by applying the following methods, which have been proved to overcome the weaknesses, especially the high bias of the basic DQN.
+This project used the basic Deep Q-Learning algorithm which has many limitations. Several improvements to the basic Deep Q-Learning algorithm is suggested in the course.
 
-- double DQN
-- dueling DQN
-- prioritized experience replay
+- Double DQN
+  - Deep Q-Learning tends to overestimate action values. Double Q-Learning has been shown to work well in practice to help with this.
+
+- Prioritized experience replay
+  - Deep Q-Learning samples experience transitions uniformly from a replay memory. Prioritized experienced replay is based on the idea that the agent can learn more effectively from some transitions than from others, and the more important transitions should be sampled with higher probability.
+
+- Dueling DQN
+  - Currently, in order to determine which states are (or are not) valuable, we have to estimate the corresponding action values for each action. However, by replacing the traditional Deep Q-Network (DQN) architecture with a dueling architecture, we can assess the value of each state, without having to learn the effect of each action.
+
+- Besides the above 3 extensions, many more have been proposed, including:
+   - Learning from multi-step bootstrap targets
+   - Distributional DQN
+   - Noisy DQN
+  
+- Combining all above six modifications of the basic Deep Q-Learning algorithm. The corresponding algorithm was termed [Rainbow](https://www.aaai.org/ocs/index.php/AAAI/AAAI18/paper/view/17204) by Researchers at Google DeepMind.
+
